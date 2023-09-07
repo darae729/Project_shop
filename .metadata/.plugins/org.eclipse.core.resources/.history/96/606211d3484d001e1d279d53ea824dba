@@ -1,0 +1,5 @@
+package org.sp.springapp.exception;
+
+public class GalleryException {
+
+}

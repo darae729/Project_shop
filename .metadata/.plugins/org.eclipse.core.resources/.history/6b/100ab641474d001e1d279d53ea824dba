@@ -1,0 +1,14 @@
+package org.sp.springapp.model.gallery;
+
+import java.util.List;
+
+import org.sp.springapp.domain.Gallery;
+
+public interface GalleryImgDAO {
+	
+	public void insert(Gallery gallery);
+	public List selectAll();
+	public GalleryImg select(int gallry_img_idx);
+	public void update(Gallery gallery);
+	public void delete(int gallery_idx);
+}

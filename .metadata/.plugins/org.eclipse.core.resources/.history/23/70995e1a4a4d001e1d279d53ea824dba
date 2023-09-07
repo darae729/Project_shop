@@ -1,0 +1,47 @@
+package org.sp.springapp.model.gallery;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.sp.springapp.domain.GalleryImg;
+import org.springframework.stereotype.Repository;
+
+import sp.org.springapp.mybatis.MybatisConfig;
+
+@Repository
+public class MybatisGalleryImgDAO implements GalleryImgDAO{
+	
+	
+	public MybatisConfig mybatisConfig;
+	
+	
+	public void insert(GalleryImg galleryImg) {
+		SqlSession sqlSession;
+		
+	}
+
+	
+	public List selectAll() {
+	
+		return null;
+	}
+
+	
+	public GalleryImg select(int gallry_img_idx) {
+	
+		return null;
+	}
+
+	
+	public void update(GalleryImg galleryImg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(int gallery_img_idx) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

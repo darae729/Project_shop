@@ -1,0 +1,7 @@
+package org.sp.springapp.exception;
+
+
+//나만의 예외 객체 정의하기
+public class GalleryException extends RuntimeException {
+
+}

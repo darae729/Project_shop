@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sp.org.springapp.mybatis.GalleryMapper">
+	
+	<insert id="insert">
+		insert into gallery_img(gallery_img_idx, gallery_idx, filename)
+		values(seq_gallery_img.nextval, #{}, #{filename})
+	</insert>
+
+</mapper>

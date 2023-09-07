@@ -1,0 +1,39 @@
+package org.sp.springapp.model.gallery;
+
+import java.util.List;
+
+import org.sp.springapp.domain.GalleryImg;
+
+public class MybatisGalleryImgDAO implements GalleryImgDAO{
+
+	@Override
+	public void insert(GalleryImg galleryImg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List selectAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GalleryImg select(int gallry_img_idx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(GalleryImg galleryImg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(int gallery_img_idx) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

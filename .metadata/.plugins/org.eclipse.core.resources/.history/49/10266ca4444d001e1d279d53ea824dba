@@ -1,0 +1,5 @@
+package sp.org.springapp.mybatis;
+
+public class MybatisConfig {
+
+}
