@@ -1,0 +1,5 @@
+package org.sp.springapp.domain;
+
+public class GalleryImg {
+
+}

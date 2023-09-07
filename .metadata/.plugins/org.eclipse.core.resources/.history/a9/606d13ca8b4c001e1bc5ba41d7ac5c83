@@ -1,0 +1,11 @@
+package org.sp.springapp.util;
+
+public class FileManager {
+
+	//확장자 구하기 1234.png
+	public String getExt(String path) {
+		int index = path.lastIndexOf(".");
+		path.substring()
+		return null;
+	}
+}
