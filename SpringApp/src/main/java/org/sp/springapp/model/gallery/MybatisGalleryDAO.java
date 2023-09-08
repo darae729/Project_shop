@@ -15,8 +15,7 @@ public class MybatisGalleryDAO implements GalleryDAO{
 
 	@Autowired
 	private MybatisConfig mybatisConfig;
-	
-	
+		
 	public void insert(Gallery gallery) throws GalleryException{
 		
 		SqlSession sqlSession=mybatisConfig.getSqlSession();
@@ -25,6 +24,8 @@ public class MybatisGalleryDAO implements GalleryDAO{
 		sqlSession.commit();	//DML인 경우
 		
 		mybatisConfig.release(sqlSession);
+		
+		//result=0; //일부러 에러 테스트
 		
 		if(result==0) {
 			//개발자가 일부러 관련있는 에러를 일으키자

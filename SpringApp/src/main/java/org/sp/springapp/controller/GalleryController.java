@@ -1,7 +1,5 @@
 package org.sp.springapp.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.sp.springapp.domain.Gallery;
 import org.sp.springapp.domain.GalleryImg;
-import org.sp.springapp.model.gallery.GalleryDAO;
-import org.sp.springapp.model.gallery.GalleryImgDAO;
+import org.sp.springapp.exception.FileException;
+import org.sp.springapp.exception.GalleryException;
+import org.sp.springapp.exception.GalleryImgException;
 import org.sp.springapp.model.gallery.GalleryService;
 import org.sp.springapp.util.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,9 +95,41 @@ public class GalleryController {
 	}
 	
 	//어떠한 예외가 발생했을 때 어떤 처리를 할지 아래의 메서드에서 로직 작성..
-	@ExceptionHandler
-	public ModelAndView handle() {
-		return null;
+	@ExceptionHandler(FileException.class)
+	public ModelAndView handle(FileException e) {
+		//jsp에서 에러 메시지를 보여줘야 하므로 요청은 유지가 되어야 한다
+		//즉, 저장할 것이 있고 가져갈 것이 있다
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("e", e); //에러객체 저장
+		mav.setViewName("error/result");
+		
+		return mav;
+	}
+	
+	//어떠한 예외가 발생했을 때 어떤 처리를 할지 아래의 메서드에서 로직 작성..
+	@ExceptionHandler(GalleryException.class)
+	public ModelAndView handle(GalleryException e) {
+		//jsp에서 에러 메시지를 보여줘야 하므로 요청은 유지가 되어야 한다
+		//즉, 저장할 것이 있고 가져갈 것이 있다
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("e", e); //에러객체 저장
+		mav.setViewName("error/result");
+		
+		return mav;
+	}
+	
+	//어떠한 예외가 발생했을 때 어떤 처리를 할지 아래의 메서드에서 로직 작성..
+	@ExceptionHandler(GalleryImgException.class)
+	public ModelAndView handle(GalleryImgException e) {
+		//jsp에서 에러 메시지를 보여줘야 하므로 요청은 유지가 되어야 한다
+		//즉, 저장할 것이 있고 가져갈 것이 있다
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("e", e); //에러객체 저장
+		mav.setViewName("error/result");
+		
+		return mav;
 	}
 }
 
