@@ -44,17 +44,15 @@ public class GalleryController {
 	@RequestMapping(value = "/gallery/list", method=RequestMethod.GET)
 	public ModelAndView getList(HttpServletRequest request) {
 		//3단계 : 일시키기
-		List list = new ArrayList();
-		for(int i=0;i<10;i++) {
-			list.add("");
-		}
+		List galleryList=galleryService.selectAll();
 		
 		
 		//4단계 : 목록저장
-		pager.init(list, request);
+		pager.init(galleryList, request);
 		
 		ModelAndView mav = new ModelAndView("gallery/list");
-		mav.addObject("pager", pager); //저장했다는 것은 포워딩이 필요하다는 것임
+		mav.addObject("galleryList", galleryList); //요청 객체에 galleryList 저장
+		mav.addObject("pager", pager); //요청객체에 pager 저장. 저장 했다는 것은 포워딩이 필요하다는 것임
 		
 		return mav;
 	}
@@ -92,7 +90,7 @@ public class GalleryController {
 			
 			GalleryImg galleryImg = new GalleryImg(); //empty
 			galleryImg.setGallery(gallery); //이 시점의 gallery DTO에는 아직 gallery_idx는 0인 상태
-			galleryImg.setFilename(filename);
+			galleryImg.setFilename(name);
 			
 			imgList.add(galleryImg); //새로운 이름을 List에 적재		
 		}
