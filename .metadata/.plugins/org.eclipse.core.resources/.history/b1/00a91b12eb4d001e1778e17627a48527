@@ -1,0 +1,6 @@
+package org.sp.springapp.model.gallery;
+
+//서비스 인터페이스를 구현한 하위 서비스 객체
+public class GalleryServiceImpl implements GalleryService{
+
+}

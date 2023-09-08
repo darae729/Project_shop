@@ -21,8 +21,7 @@ public class MybatisGalleryDAO implements GalleryDAO{
 		
 		SqlSession sqlSession=mybatisConfig.getSqlSession();
 		
-		int result = sqlSession.insert("Gallery.insert", gallery);
-		
+		int result = sqlSession.insert("Gallery.insert", gallery);		
 		sqlSession.commit();	//DML인 경우
 		
 		mybatisConfig.release(sqlSession);

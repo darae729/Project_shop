@@ -8,7 +8,7 @@
 		values(seq_gallery.nextval, #{title},#{writer},#{content})
 		
 		<selectKey keyColumn="gallery_idx" keyProperty="gallery_idx" resultType="int" order="AFTER">
-			select sql_gallery.currval as gallery_idx from dual
+			select seq_gallery.currval as gallery_idx from dual
 		</selectKey>
 		
 	</insert>

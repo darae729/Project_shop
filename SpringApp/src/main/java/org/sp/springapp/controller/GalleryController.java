@@ -12,9 +12,11 @@ import org.sp.springapp.domain.Gallery;
 import org.sp.springapp.domain.GalleryImg;
 import org.sp.springapp.model.gallery.GalleryDAO;
 import org.sp.springapp.model.gallery.GalleryImgDAO;
+import org.sp.springapp.model.gallery.GalleryService;
 import org.sp.springapp.util.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,13 +26,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class GalleryController {
 
-	//DI를 이용하여 느슨하게 보유해야 한다
+	///컨트롤러가 직접 DAO를 다루게 될 경우에 트랙잭션 처리까지 부담한다거나
+	//Model part 업무를 너무 전문적으로 처리하게 된다.
+	//컨트롤러와 모델의 업무 경계가 모호해지므로 즉, 코드의 분리가 안되므로
+	//추후 비슷한 업무 시 코드를 분리해놓지 않았기 때문에 코드의 재사용성이 떨어진다..
 	@Autowired
-	private GalleryDAO galleryDAO;
+	private GalleryService galleryService;
 	
 	@Autowired
-	private GalleryImgDAO galleryImgDAO;
-	
+	private FileManager fileManager;
 	
 	//게시판 목록 요청 처리
 	@RequestMapping(value = "/gallery/list", method=RequestMethod.GET)
@@ -54,9 +58,9 @@ public class GalleryController {
 	@RequestMapping(value = "/gallery/regist", method=RequestMethod.POST)
 	public ModelAndView regist(Gallery gallery, HttpServletRequest request) {
 		//3단계 : 오라클에 글 등록 + 파일 업로드 + 
-		System.out.println("title =" +gallery.getTitle());
-		System.out.println("writer =" +gallery.getWriter());
-		System.out.println("content =" +gallery.getContent());
+//		System.out.println("title =" +gallery.getTitle());
+//		System.out.println("writer =" +gallery.getWriter());
+//		System.out.println("content =" +gallery.getContent());
 		
 		MultipartFile[] photo=gallery.getPhoto();
 		System.out.println("넘겨받은 파일의 수는"+photo.length);
@@ -68,47 +72,32 @@ public class GalleryController {
 		String path=context.getRealPath("/resources/data/");
 		System.out.println("파일이 저장될 풀 경로는" +path);
 		
-		List<String> nameList=new ArrayList<String>(); //새롭게 생성한 파일명이 누적될 곳
+		List<GalleryImg> imgList=new ArrayList<GalleryImg>(); //새롭게 생성한 파일명이 누적될 곳
 		
 		for(int i=0;i<photo.length;i++) {
-			String filename=photo[i].getOriginalFilename();
-			System.out.println(filename);
+			String filename=photo[i].getOriginalFilename();			
+			String name=fileManager.save(path, filename, photo[i]);
 			
-			//파일명 만들기
-			String newName = FileManager.createFilename(filename);
-			nameList.add(newName); //파일명 누적
-		
-			File file=new File(path+newName);
+			GalleryImg galleryImg = new GalleryImg(); //empty
+			galleryImg.setGallery(gallery); //이 시점의 gallery DTO에는 아직 gallery_idx는 0인 상태
+			galleryImg.setFilename(filename);
 			
-			try {
-				photo[i].transferTo(file);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			imgList.add(galleryImg); //새로운 이름을 List에 적재		
 		}
 		
-		//Gallery 테이블 insert
-		//여기까지는 아직 gallery DTO의 gallery_idx가 채워지지 않은 0인 상태..
-		System.out.println("DAO 동작 전 gallery_idx is " +gallery.getGallery_idx());
+		//Gallery DTO에 GalleryImg 들을 생성하여 List로 넣어두기
+		gallery.setGalleryImgList(imgList);
 		
-		galleryDAO.insert(gallery);
+		//서비스에서 예외가 발생했을 땐 스프링의 컨트롤러는 예외를 감지하는 이벤트가 발생함..
+		//이때 이 이벤트를 처리할 수 있는 메서드를 정의해놓고 개발자가 알맞는 에러 페이지 및 메시지를 구성
+		galleryService.regist(gallery); //글 등록 요청
+		
+		return null;
+	}
 	
-		
-		//여기부터는 gallery DTO의 gallery_idx는 가장 최신의 sequence 값으로 채워져 있는 상태
-		System.out.println("DAO 동작 후 gallery_idx is " +gallery.getGallery_idx());
-		
-		//GalleryImg 테이블 insert
-		//업로드한 이미지 수 만큼 insert !!
-		for(String name : nameList) {
-			GalleryImg galleryImg=new GalleryImg();
-			galleryImg.setGallery(gallery); //부모의 pk 담기
-			galleryImg.setFilename(name);
-			
-			galleryImgDAO.insert(galleryImg);
-		}
-		
+	//어떠한 예외가 발생했을 때 어떤 처리를 할지 아래의 메서드에서 로직 작성..
+	@ExceptionHandler
+	public ModelAndView handle() {
 		return null;
 	}
 }

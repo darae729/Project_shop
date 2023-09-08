@@ -1,0 +1,5 @@
+package org.sp.springapp.model.gallery;
+
+public class GalleryServiceImpl {
+
+}
