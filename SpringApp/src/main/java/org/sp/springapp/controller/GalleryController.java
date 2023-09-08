@@ -13,6 +13,7 @@ import org.sp.springapp.exception.GalleryException;
 import org.sp.springapp.exception.GalleryImgException;
 import org.sp.springapp.model.gallery.GalleryService;
 import org.sp.springapp.util.FileManager;
+import org.sp.springapp.util.Pager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,13 +36,25 @@ public class GalleryController {
 	@Autowired
 	private FileManager fileManager;
 	
+	@Autowired
+	private Pager pager;
+	
+	
 	//게시판 목록 요청 처리
 	@RequestMapping(value = "/gallery/list", method=RequestMethod.GET)
-	public ModelAndView getList() {
+	public ModelAndView getList(HttpServletRequest request) {
 		//3단계 : 일시키기
+		List list = new ArrayList();
+		for(int i=0;i<10;i++) {
+			list.add("");
+		}
+		
 		
 		//4단계 : 목록저장
+		pager.init(list, request);
+		
 		ModelAndView mav = new ModelAndView("gallery/list");
+		mav.addObject("pager", pager); //저장했다는 것은 포워딩이 필요하다는 것임
 		
 		return mav;
 	}
@@ -55,7 +68,7 @@ public class GalleryController {
 	
 	//글쓰기 요청 처리
 	@RequestMapping(value = "/gallery/regist", method=RequestMethod.POST)
-	public ModelAndView regist(Gallery gallery, HttpServletRequest request) {
+	public String regist(Gallery gallery, HttpServletRequest request) {
 		//3단계 : 오라클에 글 등록 + 파일 업로드 + 
 //		System.out.println("title =" +gallery.getTitle());
 //		System.out.println("writer =" +gallery.getWriter());
@@ -91,7 +104,7 @@ public class GalleryController {
 		//이때 이 이벤트를 처리할 수 있는 메서드를 정의해놓고 개발자가 알맞는 에러 페이지 및 메시지를 구성
 		galleryService.regist(gallery); //글 등록 요청
 		
-		return null;
+		return "redirect:/gallery/list"; //DispatcherServlet이 ViewResolver를 이용하여 이 몸뚱아리를 해석..
 	}
 	
 	//어떠한 예외가 발생했을 때 어떤 처리를 할지 아래의 메서드에서 로직 작성..

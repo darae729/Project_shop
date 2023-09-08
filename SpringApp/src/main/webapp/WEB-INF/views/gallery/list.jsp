@@ -1,4 +1,8 @@
+<%@page import="org.sp.springapp.util.Pager"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%
+	Pager pager=(Pager)request.getAttribute("pager");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +28,10 @@ tr:nth-child(even) {
 tr[id=first]{
 	background-color: #ffffff;
 	border: 1px solid #ddd;
+}
+
+a{
+	text-decoration: none;
 }
 
 
@@ -66,20 +74,44 @@ $(function() {
 			<th>조회수</th>
 		</tr>
 		
+		<%for(int i=1;i<=pager.getPageSize();i++){ %>
 		<tr>
 			<td>Jill</td>
+			<td>Smith</td>
 			<td>Smith</td>
 			<td>50</td>
 			<td>50</td>
 			<td>50</td>
-			<td>50</td>
 		</tr>
+		<%} %>
 		
 		<tr>
-		<td colspan="6">
-		<p><br>
-		<input type="button" id="bt_write" value="글쓰기">
-		</td>
+			<td colspan="6">
+			<%if(pager.getFirstPage()-1<1){ %>
+				<a href="javascript:alert('이전 페이지가 없습니다');">◀</a>
+			<%}else{ %>
+				<a href="/gallery/list?currentPage=<%=pager.getFirstPage()-1 %>">◀</a>
+			<%} %>
+				
+			<%for(int i=pager.getFirstPage();i<=pager.getLastPage();i++){ %>
+				<%if(i>pager.getTotalPage())break; %>
+				<a href="/gallery/list?currentPage=<%=i%>">[<%=i %>]</a>
+			<%} %>
+			
+			<%if(pager.getLastPage()>pager.getTotalPage()){ %>
+				<a href="javascript:alert('다음 페이지가 없습니다');">▶</a>
+			<%}else{ %>
+				<a href="/gallery/list?currentPage=<%=pager.getLastPage()+1 %>">▶</a>
+			<%} %>
+			</td>
+		</tr>
+		
+		
+		<tr>
+			<td colspan="6">
+			<p><br>
+			<input type="button" id="bt_write" value="글쓰기">
+			</td>
 		</tr>
 	</table>
 
