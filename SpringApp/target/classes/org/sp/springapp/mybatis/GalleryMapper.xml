@@ -48,6 +48,17 @@
 		
 	</select>
 	
+	<!-- 게시물 1건 삭제 -->
+	<delete id="delete">
+		delete gallery where gallery_idx=#{gallery_idx}
+	</delete>
+	
+	<!-- 업데이트 -->
+	<update id="update">
+		update gallery set title=#{title}, writer=#{writer}, content=#{content}
+		where gallery_idx=#{gallery_idx}
+	</update>
+	
 	
 </mapper>
 

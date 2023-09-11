@@ -63,11 +63,15 @@ public class MybatisGalleryDAO implements GalleryDAO{
 
 
 	@Override
-	public void delete(int gallery_idx) {
-		// TODO Auto-generated method stub
+	public void delete(int gallery_idx) throws GalleryException{
+		SqlSession sqlSession = mybatisConfig.getSqlSession();
+		int result = sqlSession.delete("Gallery.delete", gallery_idx);
+		sqlSession.commit();
+		mybatisConfig.release(sqlSession);
 		
+		if(result<1) { //삭제 실패라면
+			throw new GalleryException("삭제실패");
+			
+		}
 	}
-
-
-
 }

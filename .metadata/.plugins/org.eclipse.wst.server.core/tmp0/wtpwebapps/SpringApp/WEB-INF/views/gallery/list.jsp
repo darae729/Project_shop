@@ -85,7 +85,7 @@ h2{
 .pagination {
 	display: inline-block;
 	position: relative;
-	left:680px;
+	left:670px;
 }
 
 .pagination a {

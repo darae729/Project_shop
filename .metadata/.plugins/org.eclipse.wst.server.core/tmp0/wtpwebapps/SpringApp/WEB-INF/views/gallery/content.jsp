@@ -67,14 +67,25 @@ function regist() {
 }
 
 $(function() {
-	$("#bt_list").click(function() {
-		location.href="/gallery/list";
-	});
+	$("#bt_edit").click(function() {
+		
+	}
 });
 
-$(function() {
-	$("#bt_regist").click(function() {
-		regist();
+	$("#bt_del").click(function() {
+		if(confirm("삭제하시겠습니까?")){
+			//삭제요청 시 form 태그 안에 작성된 파라미터들을 한꺼번에 전송하자
+			$("form").attr({
+				action:"/gallery/delete",
+				method:"post"
+			});
+			$("form").submit();
+		}			
+	});
+		
+	$("#bt_list").click(function() {
+		location.href="/gallery/list";
+		
 	});
 });
 
@@ -86,11 +97,15 @@ $(function() {
 
 <div class="container">
   <form>
+  	<input type="hidden" name="gallery_idx" value="<%=gallery.getGallery_idx() %>">
+  	
+  	
     <input type="text" name="title" value="<%=gallery.getTitle()%>">
     <input type="text" name="writer" value="<%=gallery.getWriter()%>">
     <textarea id="content" name="content" style="height:200px"><%=gallery.getContent()%></textarea>
 	<%for(int i=0;i<gallery.getGalleryImgList().size();i++){ %>
 	<%GalleryImg galleryImg=gallery.getGalleryImgList().get(i); %>
+	<input type="hidden" name="filename" value="<%=galleryImg.getFilename()%>">
 		<p>
 			<img src="/static/data/<%=galleryImg.getFilename() %>" width="150px">
 		</p>
@@ -100,8 +115,9 @@ $(function() {
     <br><p>
     <input type="file" name="photo">
     <p><br>
+    <input type="button" value="수정" id="bt_edit">
+     <input type="button" value="삭제" id="bt_del">
     <input type="button" value="목록" id="bt_list">
-    <input type="button" value="등록" id="bt_regist">
   </form>
 </div>
 

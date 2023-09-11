@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.sp.springapp.domain.GalleryImg;
+import org.sp.springapp.exception.GalleryException;
 import org.sp.springapp.exception.GalleryImgException;
 import org.sp.springapp.mybatis.MybatisConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Parameter;
 
 @Repository
 public class MybatisGalleryImgDAO implements GalleryImgDAO{
@@ -53,4 +56,15 @@ public class MybatisGalleryImgDAO implements GalleryImgDAO{
 		
 	}
 
+	@Override
+	public void deleteByGalleryIdx(int gallery_idx) throws GalleryImgException{
+		SqlSession sqlSession = mybatisConfig.getSqlSession();
+		int result = sqlSession.delete("GalleryImg.deleteByGalleryIdx", gallery_idx);
+		sqlSession.commit();
+		mybatisConfig.release(sqlSession);
+		
+		if(result<1) {
+			throw new GalleryImgException("이미지 레코드 삭제 실패");
+		}
+	}
 }
