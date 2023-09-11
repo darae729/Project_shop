@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Update;
 import org.sp.springapp.domain.Gallery;
 import org.sp.springapp.domain.GalleryImg;
 import org.sp.springapp.exception.FileException;
@@ -144,6 +145,14 @@ public class GalleryController {
 		//4단계 : 리스트를 재요청 들어오게 할 것이므로 jsp로 가져갈 것이 없다.
 		return "redirect:/gallery/list";
 	}
+	
+	@RequestMapping(value="/gallery/edit", method=RequestMethod.POST)
+	public String Update(int gallery_idx, HttpServletRequest request) {
+		
+		
+		return "redirect:/gallery/list";
+	}
+	
 	
 	//어떠한 예외가 발생했을 때 어떤 처리를 할지 아래의 메서드에서 로직 작성..
 	@ExceptionHandler(FileException.class)

@@ -56,9 +56,15 @@ public class MybatisGalleryDAO implements GalleryDAO{
 
 
 	@Override
-	public void update(Gallery gallery) {
-		// TODO Auto-generated method stub
+	public void update(Gallery gallery) throws GalleryException{
+		SqlSession sqlSession = mybatisConfig.getSqlSession();
+		int result=sqlSession.update("Gallery.update", gallery);
+		sqlSession.commit();
+		mybatisConfig.release(sqlSession);
 		
+		if(result<1) {
+			throw new GalleryException("수정실패");
+		}
 	}
 
 

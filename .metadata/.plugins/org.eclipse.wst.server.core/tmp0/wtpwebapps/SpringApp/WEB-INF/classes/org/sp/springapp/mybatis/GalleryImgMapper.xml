@@ -15,7 +15,7 @@
 	</select>
 	
 	<!-- 부모의 딸려있는 레코드만 삭제 -->
-	<delete id="deleteByGalleryIdx">
+	<delete id="deleteByGalleryIdx" parameterType="int">
 		delete gallery_img where gallery_idx=#{gallery_idx}
 	</delete>
 	

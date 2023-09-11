@@ -69,8 +69,7 @@ function regist() {
 $(function() {
 	$("#bt_edit").click(function() {
 		
-	}
-});
+	});
 
 	$("#bt_del").click(function() {
 		if(confirm("삭제하시겠습니까?")){
@@ -116,7 +115,7 @@ $(function() {
     <input type="file" name="photo">
     <p><br>
     <input type="button" value="수정" id="bt_edit">
-     <input type="button" value="삭제" id="bt_del">
+    <input type="button" value="삭제" id="bt_del">
     <input type="button" value="목록" id="bt_list">
   </form>
 </div>
