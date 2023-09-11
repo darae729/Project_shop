@@ -45,9 +45,6 @@ tr[id=second]{
 	border: 1px solid #ddd;
 }
 
-td[id=num]{
-
-}
 
 td[id=title]{
 	font-weight :650;
@@ -71,6 +68,9 @@ input[type=button] {
   margin-right : 2px;
   cursor: pointer;
   font-family: 'IBM Plex Sans KR', sans-serif;
+  position: relative;
+  right:-1360px;
+  top: -30px;
 }
 
 input[type=button]:hover {
@@ -83,28 +83,35 @@ h2{
 
 
 .pagination {
-  display: inline-block;
+	display: inline-block;
+	position: relative;
+	left:680px;
 }
 
 .pagination a {
-  color: #0123b4;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
+	color: 0123b4;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-weight: 300px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .pagination a.active {
-  background-color: #e2f1f7;
-  color: white;
-  border-radius: 5px;
+	background-color: #4CAF50;
+	color: white;
+	border: 1px solid #4CAF50;
+	
 }
 
 .pagination a:hover:not(.active) {
-  color: #8792ae;
-  background-color: #e2f1f7;
-  border-radius: 5px;
+	background-color: #dfeef3;
+	
 }
-
 
 
 </style>
@@ -138,6 +145,7 @@ $(function() {
 		<%if(num<1)break; %>
 		<%Gallery gallery=galleryList.get(curPos++); %>
 		<%GalleryImg galleryImg=gallery.getGalleryImgList().get(0); %>
+		
 		<tr id="second">
 			<td id="num"><%=num-- %></td>
 			<td><img src="/static/data/<%=galleryImg.getFilename() %>" width="75px"></td>
@@ -159,7 +167,7 @@ $(function() {
 				
 			<%for(int i=pager.getFirstPage();i<=pager.getLastPage();i++){ %>
 				<%if(i>pager.getTotalPage())break; %>
-				<a href="/gallery/list?currentPage=<%=i%>">[<%=i %>]</a>
+				<a href="/gallery/list?currentPage=<%=i%>"><%=i %></a>
 			<%} %>
 			
 			<%if(pager.getLastPage()>pager.getTotalPage()){ %>
