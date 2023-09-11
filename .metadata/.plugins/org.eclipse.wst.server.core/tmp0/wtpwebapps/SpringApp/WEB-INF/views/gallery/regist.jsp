@@ -4,9 +4,13 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
+
 
 input[type=text], select, textarea {
   width: 100%;
@@ -27,6 +31,7 @@ input[type=button] {
   border-radius: 7px;
   margin-right : 2px;
   cursor: pointer;
+  font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
 input[type=button]:hover {
@@ -38,6 +43,11 @@ input[type=button]:hover {
   background-color: #ffffff;
   padding: 20px;
 }
+
+h2{
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
+
 </style>
 <%@ include file="inc/head_link.jsp" %>
 <script type="text/javascript">
@@ -69,7 +79,7 @@ $(function() {
 </head>
 <body>
 
-<h3>글쓰기</h3>
+<h2>글쓰기</h2>
 
 <div class="container">
   <form>
@@ -84,8 +94,14 @@ $(function() {
     <p><br>
     <input type="button" value="목록" id="bt_list">
     <input type="button" value="등록" id="bt_regist">
-  </form>
+	</form>
+
+  
 </div>
 
 </body>
 </html>
+
+
+
+

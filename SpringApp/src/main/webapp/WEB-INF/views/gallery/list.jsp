@@ -13,12 +13,16 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
 <style>
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	width: 100%;
 	border: 1px solid #ddd;
+	font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
 th, td {
@@ -36,8 +40,25 @@ tr[id=first]{
 	border: 1px solid #ddd;
 }
 
+tr[id=second]{
+	background-color: #ffffff;
+	border: 1px solid #ddd;
+}
+
+td[id=num]{
+
+}
+
+td[id=title]{
+	font-weight :650;
+	font-size:17px;
+
+}
+
+
 a{
 	text-decoration: none;
+	color: #0123b4;
 }
 
 
@@ -49,11 +70,42 @@ input[type=button] {
   border-radius: 7px;
   margin-right : 2px;
   cursor: pointer;
+  font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
 input[type=button]:hover {
   background-color: #1876fb;
 }
+
+h2{
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
+
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: #0123b4;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #e2f1f7;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  color: #8792ae;
+  background-color: #e2f1f7;
+  border-radius: 5px;
+}
+
+
 
 </style>
 <%@ include file="inc/head_link.jsp" %>
@@ -86,22 +138,23 @@ $(function() {
 		<%if(num<1)break; %>
 		<%Gallery gallery=galleryList.get(curPos++); %>
 		<%GalleryImg galleryImg=gallery.getGalleryImgList().get(0); %>
-		<tr>
-			<td><%=num-- %></td>
+		<tr id="second">
+			<td id="num"><%=num-- %></td>
 			<td><img src="/static/data/<%=galleryImg.getFilename() %>" width="75px"></td>
-			<td><a href="/gallery/content?gallery_idx=<%=gallery.getGallery_idx()%>"><%=gallery.getTitle() %></a></td>
+			<td id="title"><a href="/gallery/content?gallery_idx=<%=gallery.getGallery_idx()%>"><%=gallery.getTitle() %></a></td>
 			<td><%=gallery.getWriter() %></td>
 			<td><%=gallery.getRegdate() %></td>
 			<td><%=gallery.getHit() %></td>
 		</tr>
 		<%} %>
 		
-		<tr>
+		<tr class="pagination">
 			<td colspan="6">
+			<br>
 			<%if(pager.getFirstPage()-1<1){ %>
-				<a href="javascript:alert('이전 페이지가 없습니다');">◀</a>
+				<a href="javascript:alert('이전 페이지가 없습니다');">&laquo;</a>
 			<%}else{ %>
-				<a href="/gallery/list?currentPage=<%=pager.getFirstPage()-1 %>">◀</a>
+				<a href="/gallery/list?currentPage=<%=pager.getFirstPage()-1 %>">&laquo;</a>
 			<%} %>
 				
 			<%for(int i=pager.getFirstPage();i<=pager.getLastPage();i++){ %>
@@ -110,17 +163,15 @@ $(function() {
 			<%} %>
 			
 			<%if(pager.getLastPage()>pager.getTotalPage()){ %>
-				<a href="javascript:alert('다음 페이지가 없습니다');">▶</a>
+				<a href="javascript:alert('다음 페이지가 없습니다');">&raquo;</a>
 			<%}else{ %>
-				<a href="/gallery/list?currentPage=<%=pager.getLastPage()+1 %>">▶</a>
+				<a href="/gallery/list?currentPage=<%=pager.getLastPage()+1 %>">&raquo;</a>
 			<%} %>
 			</td>
 		</tr>
-		
-		
+			
 		<tr>
-			<td colspan="6">
-			<p><br>
+			<td colspan="6">		
 			<input type="button" id="bt_write" value="글쓰기">
 			</td>
 		</tr>
