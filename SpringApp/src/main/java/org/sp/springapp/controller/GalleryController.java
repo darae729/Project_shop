@@ -85,14 +85,16 @@ public class GalleryController {
 		List<GalleryImg> imgList=new ArrayList<GalleryImg>(); //새롭게 생성한 파일명이 누적될 곳
 		
 		for(int i=0;i<photo.length;i++) {
-			String filename=photo[i].getOriginalFilename();			
-			String name=fileManager.save(path, filename, photo[i]);
-			
-			GalleryImg galleryImg = new GalleryImg(); //empty
-			galleryImg.setGallery(gallery); //이 시점의 gallery DTO에는 아직 gallery_idx는 0인 상태
-			galleryImg.setFilename(name);
-			
-			imgList.add(galleryImg); //새로운 이름을 List에 적재		
+			if(photo[i].isEmpty()==false) { //비어 있지 않다면 즉, 업로드가 된 경우만..
+				String filename=photo[i].getOriginalFilename();			
+				String name=fileManager.save(path, filename, photo[i]);
+				
+				GalleryImg galleryImg = new GalleryImg(); //empty
+				galleryImg.setGallery(gallery); //이 시점의 gallery DTO에는 아직 gallery_idx는 0인 상태
+				galleryImg.setFilename(name);
+				
+				imgList.add(galleryImg); //새로운 이름을 List에 적재		
+			}
 		}
 		
 		//Gallery DTO에 GalleryImg 들을 생성하여 List로 넣어두기
@@ -103,6 +105,20 @@ public class GalleryController {
 		galleryService.regist(gallery); //글 등록 요청
 		
 		return "redirect:/gallery/list"; //DispatcherServlet이 ViewResolver를 이용하여 이 몸뚱아리를 해석..
+	}
+	
+	//상세보기 요청 처리
+	@RequestMapping(value="/gallery/content", method=RequestMethod.GET)
+	public ModelAndView getContent(int gallery_idx) {
+		//3단계 : 레코드 가져오기
+		Gallery gallery=galleryService.select(gallery_idx);
+		
+		//4단계 : 가져온 레코드 저장(jsp로 가져가려고)
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("gallery", gallery);
+		mav.setViewName("gallery/content");
+		
+		return mav;
 	}
 	
 	//어떠한 예외가 발생했을 때 어떤 처리를 할지 아래의 메서드에서 로직 작성..

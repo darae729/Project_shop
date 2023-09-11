@@ -69,7 +69,7 @@ $(function() {
 </head>
 <body>
 
-<h3>상품 등록</h3>
+<h3>글쓰기</h3>
 
 <div class="container">
   <form>

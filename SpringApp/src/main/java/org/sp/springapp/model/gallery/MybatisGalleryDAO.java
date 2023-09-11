@@ -47,8 +47,11 @@ public class MybatisGalleryDAO implements GalleryDAO{
 
 	@Override
 	public Gallery select(int gallery_idx) {
-		// TODO Auto-generated method stub
-		return null;
+		SqlSession sqlSession=mybatisConfig.getSqlSession();
+		Gallery gallery=sqlSession.selectOne("Gallery.select", gallery_idx);
+		
+		mybatisConfig.release(sqlSession);
+		return gallery;
 	}
 
 

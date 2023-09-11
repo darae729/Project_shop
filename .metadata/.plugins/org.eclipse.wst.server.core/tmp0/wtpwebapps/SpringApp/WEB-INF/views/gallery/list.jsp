@@ -67,7 +67,7 @@ $(function() {
 </head>
 <body>
 
-	<h2>상품 목록</h2>
+	<h2>게시판</h2>
 	<p></p>
 
 	<table>
@@ -88,11 +88,11 @@ $(function() {
 		<%GalleryImg galleryImg=gallery.getGalleryImgList().get(0); %>
 		<tr>
 			<td><%=num-- %></td>
-			<td><img src="/static/data/<%=galleryImg.getFilename() %>" width="85px"></td>
-			<td>Smith</td>  
-			<td>50</td>
-			<td>50</td>
-			<td>50</td>
+			<td><img src="/static/data/<%=galleryImg.getFilename() %>" width="75px"></td>
+			<td><a href="/gallery/content?gallery_idx=<%=gallery.getGallery_idx()%>"><%=gallery.getTitle() %></a></td>
+			<td><%=gallery.getWriter() %></td>
+			<td><%=gallery.getRegdate() %></td>
+			<td><%=gallery.getHit() %></td>
 		</tr>
 		<%} %>
 		
